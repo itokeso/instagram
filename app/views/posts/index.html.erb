@@ -11,9 +11,18 @@
             title: post.user.name do %>
             <strong><%= post.user.name %></strong>
           <% end %>
+
+            <% if post.user_id == current_user.id %>
+            <%= link_to post_path(post), method: :delete, class: "ml-auto mx-0 my-auto" do %>
+              <div class="delete-post-icon">
+              </div>
+            <% end %>
+          <% end %>
         </div>
 
+        <%= link_to post_path(post) do%>
         <%= image_tag post.photos.first.image.url(:medium), class: "card-img-top" %>
+        <% end %>
 
         <div class="card-body">
           <div class="row parts">
@@ -24,7 +33,7 @@
           <div>
             <span><strong><%= post.user.name %></strong></span>
             <span><%= post.caption %></span>
-            <%= link_to time_ago_in_words(post.created_at).upcase + "前", "#", class: "post-time no-text-decoration" %>
+            <%= link_to time_ago_in_words(post.created_at).upcase + "前", post_path(post), class: "post-time no-text-decoration" %>
             <hr>
             <div class="row parts">
               <form action="#" class="w-100">
