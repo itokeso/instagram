@@ -27,7 +27,6 @@
         <div class="card-body">
           <div class="row parts">
 
-          
             <div id="like-icon-post-<%= post.id.to_s %>">
               <% if post.liked_by(current_user).present? %>
                 <%= link_to "いいねを取り消す", post_like_path(post.id, post.liked_by(current_user)), method: :DELETE, remote: true, class: "loved hide-text" %>
@@ -35,28 +34,33 @@
                 <%= link_to "いいね", post_likes_path(post), method: :POST, remote: true, class: "love hide-text" %>
               <% end %>
             </div>
-          
 
             <%= link_to "", "#", class: "comment" %>
           </div>
 
-        
           <div id="like-text-post-<%= post.id.to_s %>">
             <%= render "like_text", { likes: post.likes } %>
           </div>
-      
+
           <div>
             <span><strong><%= post.user.name %></strong></span>
             <span><%= post.caption %></span>
             <%= link_to time_ago_in_words(post.created_at).upcase + "前", post_path(post), class: "post-time no-text-decoration" %>
-            <hr>
-            <div class="row parts">
-              <form action="#" class="w-100">
-                <div>
-                  <textarea class="form-control comment-input border-0" placeholder="コメント..." rows="1"></textarea>
-                </div>
-              </form>
+            
+            <div id="comment-post-<%= post.id.to_s %>">
+              <%= render 'comment_list', { post: post } %>
             </div>
+            <%= link_to time_ago_in_words(post.created_at).upcase + "前", post_path(post),
+              class: "light-color post-time no-text-decoration" %>
+            <hr>
+            <div class="row actions" id="comment-form-post-<%= post.id.to_s %>">
+              <%= form_with model: [post, Comment.new], class: "w-100" do |f| %>
+                <%= f.hidden_field :user_id, value: current_user.id %>
+                <%= f.hidden_field :post_id, value: post.id %>
+                <%= f.text_field :comment, class: "form-control comment-input border-0", placeholder: "コメント ...", autocomplete: :off %>
+              <% end %>
+            </div>
+
           </div>
         </div>
       </div>
