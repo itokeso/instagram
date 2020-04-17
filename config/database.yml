@@ -49,6 +49,6 @@ test:
 #
 production:
   <<: *default
-  database: instagram_production
-  username: instagram
-  password: <%= ENV['INSTAGRAM_DATABASE_PASSWORD'] %>
+  database: [heroku_a08398efc07f71a]
+  username: [b370292dd983e2]
+  password: <%= ENV['DATABASE_PASSWORD'] %>
